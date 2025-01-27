@@ -23,21 +23,22 @@ const init = async () => {
     },
   });
 
-  await server.register({
-    plugin: albums,
-    options: {
-      service: albumsService,
-      validator: AlbumsValidator,
+  await server.register([
+    {
+      plugin: albums,
+      options: {
+        service: albumsService,
+        validator: AlbumsValidator,
+      },
     },
-  });
-
-  await server.register({
-    plugin: songs,
-    options: {
-      service: songsService,
-      validator: SongsValidator,
+    {
+      plugin: songs,
+      options: {
+        service: songsService,
+        validator: SongsValidator,
+      },
     },
-  });
+  ]);
 
   server.ext('onPreResponse', (request, h) => {
     const { response } = request;

@@ -10,5 +10,5 @@ const routes = (handler) => [
     handler: handler.getUserByIdHandler,
   },
 ];
- 
+
 module.exports = routes;

@@ -10,6 +10,9 @@
     "rules": {
         "no-console": "off",
         "no-underscore-dangle": "off",
+        "no-unreachable": "error",
+        "no-useless-return": "error",
+        "no-unused-vars": "error",
         "indent": ["error", 2],
         "quotes": ["error", "single"],
         "linebreak-style": ["error", "unix"]

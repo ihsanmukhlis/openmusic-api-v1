@@ -35,6 +35,7 @@ class AlbumsHandler {
           id: album.id,
           name: album.name,
           year: album.year,
+          coverUrl: album.coverUrl || null,
           songs: album.songs,
         },
       },
@@ -61,6 +62,50 @@ class AlbumsHandler {
       status: 'success',
       message: 'Album berhasil dihapus',
     };
+  }
+
+  async postAlbumLikeHandler(request, h) {
+    const { id: albumId } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+
+    await this._service.likeAlbum(albumId, credentialId);
+
+    const response = h.response({
+      status: 'success',
+      message: 'Berhasil menyukai album',
+    });
+    response.code(201);
+    return response;
+  }
+
+  async deleteAlbumLikeHandler(request) {
+    const { id: albumId } = request.params;
+    const { id: credentialId } = request.auth.credentials;
+
+    await this._service.unlikeAlbum(albumId, credentialId);
+
+    return {
+      status: 'success',
+      message: 'Berhasil membatalkan like album',
+    };
+  }
+
+  async getAlbumLikesHandler(request, h) {
+    const { id } = request.params;
+    const { likes, source } = await this._service.getAlbumLikes(id);
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        likes,
+      },
+    });
+
+    if (source === 'cache') {
+      response.header('X-Data-Source', 'cache');
+    }
+
+    return response;
   }
 }
 
